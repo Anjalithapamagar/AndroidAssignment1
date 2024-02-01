@@ -45,8 +45,89 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 private fun Main() {
+    val keyboardController = LocalSoftwareKeyboardController.current
 
+    Column(
+        modifier = Modifier.clickable { keyboardController?.hide() },
+        horizontalAlignment = Alignment.CenterHorizontally
+    )
+    {
+        Spacer(modifier = Modifier.height(30.dp))
+
+        Text(text = "Assignment 1", fontWeight = FontWeight.Bold)
+
+        Spacer(modifier = Modifier.height(30.dp))
+
+        OutlinedTextField(
+            value = "",
+            onValueChange = "",
+            label = { Text(text = "Username") },
+        )
+
+        Spacer(modifier = Modifier.height(15.dp))
+
+        OutlinedTextField(
+            value = "",
+            onValueChange = "",
+            label = { Text("Email") },
+        )
+
+        Spacer(modifier = Modifier.height(15.dp))
+
+        OutlinedTextField(
+            value = "",
+            onValueChange = "",
+            label = { Text("ID") },
+        )
+
+        Spacer(modifier = Modifier.height(30.dp))
+
+        Row {
+            Button(
+                onClick = {
+
+                }
+            ) {
+                Text(text = "Load")
+            }
+
+            Spacer(modifier = Modifier.width(15.dp))
+
+            Button(
+                onClick = {
+
+                }
+            ){
+                Text(text = "Save")
+            }
+
+            Spacer(modifier = Modifier.width(15.dp))
+
+            Button(
+                onClick = {
+
+                }
+            ) {
+                Text(text = "Clear")
+            }
+            Spacer(modifier = Modifier.height(100.dp))
+
+            Card(
+                modifier = Modifier
+                    .width(300.dp)
+                    .heightIn(min = 56.dp)
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(16.dp)
+                ) {
+                    Text(text = "Anjali Thapa Magar", fontWeight = FontWeight.Bold)
+                    Text(text = "301372527", fontWeight = FontWeight.Bold)
+                }
+            }
+        }
+    }
 }
