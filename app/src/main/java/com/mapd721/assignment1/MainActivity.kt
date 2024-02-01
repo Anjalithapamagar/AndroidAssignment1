@@ -29,7 +29,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mapd721.assignment1.data.UserStore
 import com.mapd721.assignment1.ui.theme.Assignment1Theme
@@ -69,7 +68,8 @@ private fun Main() {
     }
 
     val studentIDValue = remember {
-        mutableStateOf(TextFieldValue())
+        val defaultStudentID = getId()
+        mutableStateOf(TextFieldValue(text = defaultStudentID))
     }
 
     val store = UserStore(context)
@@ -169,4 +169,9 @@ private fun Main() {
                 }
             }
     }
+}
+
+private fun getId(): String{
+    val studentID = "301372527"
+    return studentID.takeLast(3)
 }
