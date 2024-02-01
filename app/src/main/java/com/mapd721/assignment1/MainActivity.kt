@@ -35,6 +35,7 @@ import com.mapd721.assignment1.data.UserStore
 import com.mapd721.assignment1.ui.theme.Assignment1Theme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
@@ -111,7 +112,15 @@ private fun Main() {
         Row {
             Button(
                 onClick = {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val loadedUserName = store.getUsername.first()
+                        val loadedEmail = store.getEmail.first()
+                        val loadedStudentId = store.getStudentID.first()
 
+                        userNameValue.value = TextFieldValue(loadedUserName)
+                        emailValue.value = TextFieldValue(loadedEmail)
+                        studentIDValue.value = TextFieldValue(loadedStudentId)
+                    }
                 }
             ) {
                 Text(text = "Load")
@@ -135,7 +144,6 @@ private fun Main() {
 
             Button(
                 onClick = {
-
                 }
             ) {
                 Text(text = "Clear")

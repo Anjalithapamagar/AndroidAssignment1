@@ -21,6 +21,18 @@ class UserStore (private val context: Context) {
         private val STUDENT_ID = stringPreferencesKey("student_id")
     }
 
+    val getUsername: Flow<String> = context.dataUsername.data.map { preferences ->
+        preferences[USERNAME] ?: ""
+    }
+
+    val getEmail: Flow<String> = context.dataEmail.data.map { preferences ->
+        preferences[EMAIL] ?: ""
+    }
+
+    val getStudentID: Flow<String> = context.dataID.data.map { preferences ->
+        preferences[STUDENT_ID] ?: ""
+    }
+
     suspend fun saveUsername(username: String) {
         context.dataUsername.edit { preferences ->
             preferences[USERNAME] = username
