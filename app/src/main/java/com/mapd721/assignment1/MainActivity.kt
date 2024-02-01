@@ -14,19 +14,28 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mapd721.assignment1.data.UserStore
 import com.mapd721.assignment1.ui.theme.Assignment1Theme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,10 +54,24 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
 @Composable
 private fun Main() {
+    val context = LocalContext.current
     val keyboardController = LocalSoftwareKeyboardController.current
+
+    val userNameValue = remember {
+        mutableStateOf(TextFieldValue())
+    }
+    val emailValue = remember {
+        mutableStateOf(TextFieldValue())
+    }
+
+    val studentIDValue = remember {
+        mutableStateOf(TextFieldValue())
+    }
+
+    val store = UserStore(context)
 
     Column(
         modifier = Modifier.clickable { keyboardController?.hide() },
@@ -62,24 +85,24 @@ private fun Main() {
         Spacer(modifier = Modifier.height(30.dp))
 
         OutlinedTextField(
-            value = "",
-            onValueChange = "",
-            label = { Text(text = "Username") },
+            value = userNameValue.value,
+            onValueChange = { userNameValue.value = it },
+            label = {Text("Username")},
         )
 
         Spacer(modifier = Modifier.height(15.dp))
 
         OutlinedTextField(
-            value = "",
-            onValueChange = "",
+            value = emailValue.value,
+            onValueChange = { emailValue.value = it },
             label = { Text("Email") },
         )
 
         Spacer(modifier = Modifier.height(15.dp))
 
         OutlinedTextField(
-            value = "",
-            onValueChange = "",
+            value = studentIDValue.value,
+            onValueChange = { studentIDValue.value = it },
             label = { Text("ID") },
         )
 
@@ -98,9 +121,13 @@ private fun Main() {
 
             Button(
                 onClick = {
-
+                    CoroutineScope(Dispatchers.IO).launch {
+                        store.saveUsername(userNameValue.value.text)
+                        store.saveEmail(emailValue.value.text)
+                        store.saveStudentID(studentIDValue.value.text)
+                    }
                 }
-            ){
+            ) {
                 Text(text = "Save")
             }
 
@@ -113,6 +140,8 @@ private fun Main() {
             ) {
                 Text(text = "Clear")
             }
+        }
+
             Spacer(modifier = Modifier.height(100.dp))
 
             Card(
@@ -128,6 +157,5 @@ private fun Main() {
                     Text(text = "301372527", fontWeight = FontWeight.Bold)
                 }
             }
-        }
     }
 }
