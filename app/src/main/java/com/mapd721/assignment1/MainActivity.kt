@@ -144,6 +144,9 @@ private fun Main() {
 
             Button(
                 onClick = {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        store.clearData()
+                    }
                 }
             ) {
                 Text(text = "Clear")
